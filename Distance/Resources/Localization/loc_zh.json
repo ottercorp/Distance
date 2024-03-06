@@ -1,0 +1,940 @@
+{
+  "Download Status Message: None": {
+    "message": "准备就绪",
+    "description": "BNpcAggroInfoDownloader.GetDownloadStatusMessage"
+  },
+  "Download Status Message: Downloading": {
+    "message": "正在下载...",
+    "description": "BNpcAggroInfoDownloader.GetDownloadStatusMessage"
+  },
+  "Download Status Message: Failed Download": {
+    "message": "下载失败！",
+    "description": "BNpcAggroInfoDownloader.GetDownloadStatusMessage"
+  },
+  "Download Status Message: Failed File Load": {
+    "message": "下载的文件无效！",
+    "description": "BNpcAggroInfoDownloader.GetDownloadStatusMessage"
+  },
+  "Download Status Message: Failed File Write": {
+    "message": "无法将下载的文件保存到磁盘上；重新加载后将丢失任何更新。",
+    "description": "BNpcAggroInfoDownloader.GetDownloadStatusMessage"
+  },
+  "Download Status Message: Out of Date File": {
+    "message": "下载的文件不是最新的数据，已被丢弃。",
+    "description": "BNpcAggroInfoDownloader.GetDownloadStatusMessage"
+  },
+  "Download Status Message: Completed": {
+    "message": "更新完成",
+    "description": "BNpcAggroInfoDownloader.GetDownloadStatusMessage"
+  },
+  "Download Status Message: Canceled": {
+    "message": "更新操作已取消！",
+    "description": "BNpcAggroInfoDownloader.GetDownloadStatusMessage"
+  },
+  "Plugin Text Command Description": {
+    "message": "使用 {0} 查看可用的文本命令列表。",
+    "description": "Plugin.OnLanguageChanged"
+  },
+  "Text Command Response: No Widget Name Provided": {
+    "message": "未指定小部件名称！",
+    "description": "Plugin.ProcessTextCommand_Enable"
+  },
+  "Text Command Response: Enable - None Found": {
+    "message": "找不到名为 \"{0}\" 的小部件。",
+    "description": "Plugin.ProcessTextCommand_Enable"
+  },
+  "Text Command Response: Enable - One Found": {
+    "message": "已启用名为 \"{0}\" 的小部件。",
+    "description": "Plugin.ProcessTextCommand_Enable"
+  },
+  "Text Command Response: Enable - Multiple Found": {
+    "message": "已启用所有 {0} 个名为 \"{1}\" 的小部件。",
+    "description": "Plugin.ProcessTextCommand_Enable"
+  },
+  "Text Command Response: Disable - None Found": {
+    "message": "找不到名为 \"{0}\" 的小部件。",
+    "description": "Plugin.ProcessTextCommand_Disable"
+  },
+  "Text Command Response: Disable - One Found": {
+    "message": "已禁用名为 \"{0}\" 的小部件。",
+    "description": "Plugin.ProcessTextCommand_Disable"
+  },
+  "Text Command Response: Disable - Multiple Found": {
+    "message": "已禁用所有 {0} 个名为 \"{1}\" 的小部件。",
+    "description": "Plugin.ProcessTextCommand_Disable"
+  },
+  "Text Command Response: Toggle - None Found": {
+    "message": "找不到名为 \"{0}\" 的小部件。",
+    "description": "Plugin.ProcessTextCommand_Toggle"
+  },
+  "Text Command Response: Toggle - One Found (enabled)": {
+    "message": "已启用名为 \"{0}\" 的小部件。",
+    "description": "Plugin.ProcessTextCommand_Toggle"
+  },
+  "Text Command Response: Toggle - One Found (disabled)": {
+    "message": "已禁用名为 \"{0}\" 的小部件。",
+    "description": "Plugin.ProcessTextCommand_Toggle"
+  },
+  "Text Command Response: Toggle - Multiple Found": {
+    "message": "已切换所有 {0} 个名为 \"{1}\" 的小部件。",
+    "description": "Plugin.ProcessTextCommand_Toggle"
+  },
+  "Help Message: Config Subcommand": {
+    "message": "打开设置窗口。",
+    "description": "Plugin.ProcessTextCommand_Help"
+  },
+  "Help Message: Enable Subcommand": {
+    "message": "启用指定的距离小部件。用法：\"{0} <小部件名称>\"",
+    "description": "Plugin.ProcessTextCommand_Help"
+  },
+  "Help Message: Disable Subcommand": {
+    "message": "禁用指定的距离小部件。用法：\"{0} <小部件名称>\"",
+    "description": "Plugin.ProcessTextCommand_Help"
+  },
+  "Help Message: Toggle Subcommand": {
+    "message": "切换指定的距离小部件的开关状态。用法：\"{0} <小部件名称>\"",
+    "description": "Plugin.ProcessTextCommand_Help"
+  },
+  "Help Message: Basic": {
+    "message": "有效的子命令有 {0}、{1}、{2} 和 {3}。使用 \"{4} <子命令>\" 获取每个子命令的更多信息。",
+    "description": "Plugin.ProcessTextCommand_Help"
+  },
+  "Config Option: Show Distance on Players": {
+    "message": "显示与玩家的距离。",
+    "description": "DistanceWidgetFiltersConfig.DrawObjectKindOptions"
+  },
+  "Config Option: Show Distance on BattleNpc": {
+    "message": "显示与战斗NPC的距离。",
+    "description": "DistanceWidgetFiltersConfig.DrawObjectKindOptions"
+  },
+  "Config Option: Show Distance on EventNpc": {
+    "message": "显示与非战斗NPC的距离。",
+    "description": "DistanceWidgetFiltersConfig.DrawObjectKindOptions"
+  },
+  "Config Option: Show Distance on Treasure": {
+    "message": "显示与宝箱的距离。",
+    "description": "DistanceWidgetFiltersConfig.DrawObjectKindOptions"
+  },
+  "Config Option: Show Distance on Aetheryte": {
+    "message": "显示与以太点的距离。",
+    "description": "DistanceWidgetFiltersConfig.DrawObjectKindOptions"
+  },
+  "Config Option: Show Distance on Gathering Node": {
+    "message": "显示与采集点的距离。",
+    "description": "DistanceWidgetFiltersConfig.DrawObjectKindOptions"
+  },
+  "Config Option: Show Distance on EventObj": {
+    "message": "显示与可交互物体的距离。",
+    "description": "DistanceWidgetFiltersConfig.DrawObjectKindOptions"
+  },
+  "Config Option: Show Distance on Companion": {
+    "message": "显示与伙伴的距离。",
+    "description": "DistanceWidgetFiltersConfig.DrawObjectKindOptions"
+  },
+  "Config Option: Show Distance on Housing": {
+    "message": "显示与房屋物品的距离。",
+    "description": "DistanceWidgetFiltersConfig.DrawObjectKindOptions"
+  },
+  "Config Option: Show in Combat": {
+    "message": "战斗中显示。",
+    "description": "DistanceWidgetFiltersConfig.DrawConditionOptions"
+  },
+  "Config Option: Show out of Combat": {
+    "message": "非战斗中显示。",
+    "description": "DistanceWidgetFiltersConfig.DrawConditionOptions"
+  },
+  "Config Option: Show in Instance": {
+    "message": "副本中显示。",
+    "description": "DistanceWidgetFiltersConfig.DrawConditionOptions"
+  },
+  "Config Option: Show out of Instance": {
+    "message": "非副本中显示。",
+    "description": "DistanceWidgetFiltersConfig.DrawConditionOptions"
+  },
+  "Terminology: UI Attach Point - Auto": {
+    "message": "自动",
+    "description": "AddonAttachTypeExtensions.GetTranslatedName"
+  },
+  "Terminology: UI Attach Point - Screen Text": {
+    "message": "屏幕空间",
+    "description": "AddonAttachTypeExtensions.GetTranslatedName"
+  },
+  "Terminology: UI Attach Point - Target": {
+    "message": "目标条",
+    "description": "AddonAttachTypeExtensions.GetTranslatedName"
+  },
+  "Terminology: UI Attach Point - Focus Target": {
+    "message": "焦点目标条",
+    "description": "AddonAttachTypeExtensions.GetTranslatedName"
+  },
+  "Terminology: UI Attach Point - Mouse Cursor": {
+    "message": "鼠标指针",
+    "description": "AddonAttachTypeExtensions.GetTranslatedName"
+  },
+  "Config Category: Aggro Widget": {
+    "message": "仇恨小部件设置",
+    "description": "GeneralSettingsCategoryExtensions.GetTranslatedName"
+  },
+  "Config Category: Aggro Arcs": {
+    "message": "仇恨弧线设置",
+    "description": "GeneralSettingsCategoryExtensions.GetTranslatedName"
+  },
+  "Config Category: Aggro Data": {
+    "message": "仇恨距离数据",
+    "description": "GeneralSettingsCategoryExtensions.GetTranslatedName"
+  },
+  "Config Category: Nameplates": {
+    "message": "名牌设置",
+    "description": "GeneralSettingsCategoryExtensions.GetTranslatedName"
+  },
+  "Config Category: Miscellaneous": {
+    "message": "其他设置",
+    "description": "GeneralSettingsCategoryExtensions.GetTranslatedName"
+  },
+  "Terminology: Nameplate Style - Match Game": {
+    "message": "匹配游戏",
+    "description": "NameplateStyleExtensions.GetTranslatedName"
+  },
+  "Terminology: Nameplate Style - Old": {
+    "message": "旧样式",
+    "description": "NameplateStyleExtensions.GetTranslatedName"
+  },
+  "Terminology: Nameplate Style": {
+    "message": "新样式",
+    "description": "NameplateStyleExtensions.GetTranslatedName"
+  },
+  "Terminology: Target Category - Targets": {
+    "message": "目标",
+    "description": "TargetCategoryExtensions.GetTranslatedName"
+  },
+  "Terminology: Target Category - Self": {
+    "message": "自己",
+    "description": "TargetCategoryExtensions.GetTranslatedName"
+  },
+  "Terminology: Target Category - All Enemies": {
+    "message": "所有敌人",
+    "description": "TargetCategoryExtensions.GetTranslatedName"
+  },
+  "Terminology: Target Category - All Players": {
+    "message": "所有玩家",
+    "description": "TargetCategoryExtensions.GetTranslatedName"
+  },
+  "Terminology: Target Type - Target": {
+    "message": "目标",
+    "description": "TargetTypeExtensions.GetTranslatedName"
+  },
+  "Terminology: Target Type - Soft Target": {
+    "message": "软目标",
+    "description": "TargetTypeExtensions.GetTranslatedName"
+  },
+  "Terminology: Target Type - Focus Target": {
+    "message": "焦点目标",
+    "description": "TargetTypeExtensions.GetTranslatedName"
+  },
+  "Terminology: Target Type - Mouseover and UIMouseover Target": {
+    "message": "鼠标悬停目标",
+    "description": "TargetTypeExtensions.GetTranslatedName"
+  },
+  "Terminology: Target Type - Mouseover Target": {
+    "message": "鼠标悬停目标",
+    "description": "TargetTypeExtensions.GetTranslatedName"
+  },
+  "Terminology: Target Type - UIMouseover Target": {
+    "message": "UI鼠标悬停目标",
+    "description": "TargetTypeExtensions.GetTranslatedName"
+  },
+  "Terminology: Target Type - Target and Soft Target": {
+    "message": "目标 + 软目标",
+    "description": "TargetTypeExtensions.GetTranslatedName"
+  },
+  "Terminology: Target Type - Target of Target": {
+    "message": "目标的目标",
+    "description": "TargetTypeExtensions.GetTranslatedName"
+  },
+  "Window Title: Config": {
+    "message": "距离设置",
+    "description": "PluginUI.DrawSettingsWindow"
+  },
+  "Settings Tab: General": {
+    "message": "常规设置",
+    "description": "PluginUI.DrawSettingsWindow"
+  },
+  "Settings Tab: Custom Widgets": {
+    "message": "自定义小部件",
+    "description": "PluginUI.DrawSettingsWindow"
+  },
+  "Settings Tab: Custom Arcs": {
+    "message": "自定义弧线",
+    "description": "PluginUI.DrawSettingsWindow"
+  },
+  "Button: Save": {
+    "message": "保存",
+    "description": "PluginUI.DrawSettingsWindow"
+  },
+  "Button: Save and Close": {
+    "message": "保存并关闭",
+    "description": "PluginUI.DrawSettingsWindow"
+  },
+  "Config Text: Distance Information Link": {
+    "message": "关于FFXIV中的距离测量",
+    "description": "PluginUI.DrawSettingsWindow"
+  },
+  "Window Title: Debug Data": {
+    "message": "调试数据",
+    "description": "PluginUI.DrawDebugWindow"
+  },
+  "Window Title: Debug Aggro Entities": {
+    "message": "调试：已知仇恨距离",
+    "description": "PluginUI.DrawDebugAggroEntitiesWindow"
+  },
+  "Window Title: Nameplate Info": {
+    "message": "调试：名牌距离信息",
+    "description": "PluginUI.DrawDebugNameplateInfoWindow"
+  },
+  "Config Option: Show Aggro Arc": {
+    "message": "显示仇恨弧线",
+    "description": "PluginUI_AggroArcs.DrawConfigOptions"
+  },
+  "Help: Show Aggro Arc": {
+    "message": "这是仇恨小部件显示的距离读数的可视化表示。如果您想更改颜色或使用的目标类型，请调整仇恨小部件的设置，它们将应用于此弧线。",
+    "description": "PluginUI_AggroArcs.DrawConfigOptions"
+  },
+  "Config Option: Aggro Arc Length": {
+    "message": "仇恨弧线长度（度）：",
+    "description": "PluginUI_AggroArcs.DrawConfigOptions"
+  },
+  "Config Text: Custom Arc Placeholder": {
+    "message": "没有自定义弧线（点击+添加）",
+    "description": "PluginUI_CustomArcs.DrawSettingsTab"
+  },
+  "Button: Yes": {
+    "message": "是",
+    "description": "PluginUI_CustomArcs.DrawSettingsTab"
+  },
+  "Button: No": {
+    "message": "否",
+    "description": "PluginUI_CustomArcs.DrawSettingsTab"
+  },
+  "Config Text: No Arc Selected": {
+    "message": "未选择弧线",
+    "description": "PluginUI_CustomArcs.DrawConfigOptions"
+  },
+  "Config Option: Arc Name": {
+    "message": "弧线名称：",
+    "description": "PluginUI_CustomArcs.DrawConfigOptions"
+  },
+  "Help: Arc Name": {
+    "message": "这用于为此弧线提供自定义名称，以供某些文本命令使用。如果留空，此弧线的标题将使用此弧线的目标类型，但它将没有用于文本命令的名称。",
+    "description": "PluginUI_CustomArcs.DrawConfigOptions"
+  },
+  "Config Option: Arc Enabled": {
+    "message": "启用",
+    "description": "PluginUI_CustomArcs.DrawConfigOptions"
+  },
+  "Config Section Header: Distance Arc Rules": {
+    "message": "距离规则",
+    "description": "PluginUI_CustomArcs.DrawConfigOptions"
+  },
+  "Config Option: Object Type": {
+    "message": "对象类型：",
+    "description": "PluginUI_CustomArcs.DrawConfigOptions"
+  },
+  "Help: Applicable Object Type": {
+    "message": "此弧线将显示距离的对象的基本类别。",
+    "description": "PluginUI_CustomArcs.DrawConfigOptions"
+  },
+  "Config Option: Target Type": {
+    "message": "目标类型：",
+    "description": "PluginUI_CustomArcs.DrawConfigOptions"
+  },
+  "Help: Arc Applicable Target Type": {
+    "message": "此弧线将显示距离的目标类型。对于控制器玩家和一些双手键盘玩家，“软目标”通常只有在特定情况下才有意义。“场景鼠标悬停”用于当您在世界中悬停在一个对象上时。“UI鼠标悬停”用于当您在队伍列表上悬停时。",
+    "description": "PluginUI_CustomArcs.DrawConfigOptions"
+  },
+  "Config Option: Arc Self Azimuth": {
+    "message": "弧线中心方位角：",
+    "description": "PluginUI_CustomArcs.DrawConfigOptions"
+  },
+  "Help: Arc Self Azimuth": {
+    "message": "相对于您的角色显示弧线的方向。0表示前方，90表示右侧，180表示后方，270表示左侧。",
+    "description": "PluginUI_CustomArcs.DrawConfigOptions"
+  },
+  "Config Option: Camera-relative Self Arc": {
+    "message": "相对于相机",
+    "description": "PluginUI_CustomArcs.DrawConfigOptions"
+  },
+  "Config Option: All Enemies Aggressive": {
+    "message": "显示具有攻击性的敌人",
+    "description": "PluginUI_CustomArcs.DrawConfigOptions"
+  },
+  "Config Option: All Enemies Unaggressive": {
+    "message": "显示没有攻击性的敌人",
+    "description": "PluginUI_CustomArcs.DrawConfigOptions"
+  },
+  "Config Option: Show Dead Objects": {
+    "message": "显示死亡对象",
+    "description": "PluginUI_CustomArcs.DrawConfigOptions"
+  },
+  "Config Option: All Players Party": {
+    "message": "显示队伍成员",
+    "description": "PluginUI_CustomArcs.DrawConfigOptions"
+  },
+  "Config Option: All Players Alliance": {
+    "message": "显示团队成员",
+    "description": "PluginUI_CustomArcs.DrawConfigOptions"
+  },
+  "Config Option: All Players Other": {
+    "message": "显示其他玩家",
+    "description": "PluginUI_CustomArcs.DrawConfigOptions"
+  },
+  "Config Option: Distance is to Ring": {
+    "message": "使用距离到目标圈，而不是目标中心。",
+    "description": "PluginUI_CustomArcs.DrawConfigOptions"
+  },
+  "Help: Distance is to Ring": {
+    "message": "一般情况下，除非弧线以自己为中心，否则您通常会勾选此选项，但具体用例会有所不同。"
+  },
+  "Config Option: Arc Radius": {
+    "message": "弧线半径（y）："
+  },
+  "Help: Arc Radius": {
+    "message": "此距离相对于对象的中心或其命中环配置。最大近战距离为3.5米。"
+  },
+  "Config Section Header: Distance Arc Filters": {
+    "message": "对象类型过滤器"
+  },
+  "Config Section Header: Distance Arc Condition": {
+    "message": "条件过滤器"
+  },
+  "Config Section Header: Distance Arc Classjobs": {
+    "message": "职业过滤器"
+  },
+  "Config Section Header: Distance Arc Appearance": {
+    "message": "外观"
+  },
+  "Config Option: Show Arc Pip": {
+    "message": "显示 Pip。"
+  },
+  "Config Option: Arc Length": {
+    "message": "弧线长度："
+  },
+  "Unit String: Degrees Short Lower": {
+    "message": "度"
+  },
+  "Unit String: Yalms Lower": {
+    "message": "米"
+  },
+  "Config Section Header: Distance Arc Colors": {
+    "message": "颜色"
+  },
+  "Config Option: Distance Arc Use Distance-based Colors": {
+    "message": "使用基于距离的弧线颜色。"
+  },
+  "Help: Distance Arc Use Distance-based Colors": {
+    "message": "允许您为不同的距离阈值设置不同的颜色。如果超过该距离，则使用“远”颜色；如果超过该距离，则使用“近”颜色；否则使用上面指定的基本颜色。"
+  },
+  "Config Option: Distance Arc Color": {
+    "message": "弧线颜色"
+  },
+  "Config Option: Distance Arc Glow Color": {
+    "message": "弧线发光颜色"
+  },
+  "Config Option: Distance Arc Color Inside Near": {
+    "message": "弧线颜色（内部近）"
+  },
+  "Config Option: Distance Arc Glow Color Inside Near": {
+    "message": "弧线发光颜色（内部近）"
+  },
+  "Config Option: Distance Arc Color Inside Far": {
+    "message": "弧线颜色（内部远）"
+  },
+  "Config Option: Distance Arc Glow Color Inside Far": {
+    "message": "弧线发光颜色（内部远）"
+  },
+  "Config Option: Distance Arc Inside Near Range": {
+    "message": "“内部近”范围距离（y）："
+  },
+  "Config Option: Distance Arc Inside Far Range": {
+    "message": "“内部远”范围距离（y）："
+  },
+  "Config Option: Distance Arc Color Outside Near": {
+    "message": "弧线颜色（外部近）"
+  },
+  "Config Option: Distance Arc Glow Color Outside Near": {
+    "message": "弧线发光颜色（外部近）"
+  },
+  "Config Option: Distance Arc Color Outside Far": {
+    "message": "弧线颜色（外部远）"
+  },
+  "Config Option: Distance Arc Glow Color Outside Far": {
+    "message": "弧线发光颜色（外部远）"
+  },
+  "Config Option: Distance Arc Outside Near Range": {
+    "message": "“外部近”范围距离（y）："
+  },
+  "Config Option: Distance Arc Outside Far Range": {
+    "message": "“外部远”范围距离（y）："
+  },
+  "Config Section Header: Distance Arc Fading": {
+    "message": "渐隐"
+  },
+  "Config Option: Distance Arc Inside Fade Distance": {
+    "message": "弧线内部开始渐隐的距离（y）："
+  },
+  "Config Option: Distance Arc Inside Fade Interval": {
+    "message": "渐隐距离（y）："
+  },
+  "Config Option: Distance Arc Outside Fade Distance": {
+    "message": "弧线外部开始渐隐的距离（y）："
+  },
+  "Config Option: Distance Arc Outside Fade Interval": {
+    "message": "渐隐距离（y）："
+  },
+  "Config Option: Distance Arc Invert Fading": {
+    "message": "反向渐隐。"
+  },
+  "Help: Distance Arc Invert Fading": {
+    "message": "与上述配置的阈值距离相比，仅在定义的范围之外显示弧线。当使用此选项时，渐隐间隔将添加到配置的阈值距离上。"
+  },
+  "Config Text: Custom Widget Placeholder": {
+    "message": "无自定义小部件（点击 + 添加）"
+  },
+  "Config Text: No Widget Selected": {
+    "message": "未选择小部件"
+  },
+  "Config Option: Widget Name": {
+    "message": "小部件名称："
+  },
+  "Help: Widget Name": {
+    "message": "这用于为此小部件提供自定义名称，以供某些文本命令使用。如果留空，此小部件的标题将使用其目标类型，但不会用于文本命令中的名称。"
+  },
+  "Config Option: Widget Enabled": {
+    "message": "启用"
+  },
+  "Config Section Header: Distance Widget Rules": {
+    "message": "距离规则"
+  },
+  "Help: Widget Applicable Target Type": {
+    "message": "此小部件将显示距离的目标类型。对于控制器玩家和某些双手键盘玩家，“软目标”通常很重要。当您在世界中悬停在对象上时，“场景悬停”适用。当您在团队列表上悬停时，“UI悬停”适用。"
+  },
+  "Config Option: Widget Distance is to Ring": {
+    "message": "显示到目标圈的距离，而不是目标中心。"
+  },
+  "Config Option: Distance Measurement Offset": {
+    "message": "距离读数的偏移量（y）："
+  },
+  "Help: Distance Readout Offset": {
+    "message": "此值从实际距离中减去，以确定显示的距离。例如，可以使用此值使小部件显示能够使用技能击中首领的距离。"
+  },
+  "Config Section Header: Distance Widget Filters": {
+    "message": "对象类型过滤器"
+  },
+  "Config Section Header: Distance Widget Condition": {
+    "message": "条件过滤器"
+  },
+  "Config Section Header: Distance Widget Classjobs": {
+    "message": "职业过滤器"
+  },
+  "Config Section Header: Distance Widget Appearance": {
+    "message": "外观"
+  },
+  "Config Option: UI Attach Point": {
+    "message": "UI 绑定："
+  },
+  "Help: UI Attach Point": {
+    "message": "这是您希望将此小部件附加到的 UI 元素。“自动”会尝试根据您为此小部件选择的目标类型推断出最佳选择。“屏幕空间”不会附加到特定的 UI 元素，而是浮动在所有元素上方。其他选项应该是不言自明的。注意：如果使用硬件光标，将小部件附加到鼠标光标可能看起来很奇怪；如果需要，请在游戏选项中切换到软件光标。",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Config Option: Distance Text Position": {
+    "message": "距离显示位置（X，Y）：",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Help: Distance Text Position": {
+    "message": "这是相对于UI元素的偏移量，如果它附加在一个UI元素上，或者是屏幕上的绝对位置。",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Config Option: Distance Text Use Heavy Font": {
+    "message": "使用粗体字显示距离文本。",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Config Option: Distance Text Font Size": {
+    "message": "距离文本字体大小：",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Config Option: Distance Text Font Alignment": {
+    "message": "文本对齐方式：",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Config Option: Show Distance Units": {
+    "message": "显示距离单位。",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Config Option: Show Distance Mode Indicator": {
+    "message": "显示距离模式指示器。",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Config Option: Allow Negative Distances": {
+    "message": "允许负距离。",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Config Option: Decimal Precision": {
+    "message": "显示距离的小数位数：",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Config Section Header: Distance Widget Colors": {
+    "message": "颜色",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Config Option: Distance Text Track Target Bar Color": {
+    "message": "尝试使用目标条文本颜色。",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Help: Distance Text Track Target Bar Color": {
+    "message": "如果可以确定目标条文本（或焦点目标）的颜色，它将优先使用；否则将使用下面设置的颜色。",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Config Option: Distance Text Use Distance-based Colors": {
+    "message": "使用基于距离的文本颜色。",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Help: Distance Text Use Distance-based Colors": {
+    "message": "允许您为不同的距离阈值设置不同的颜色。如果超出该距离，则使用“远”颜色；如果超出该距离，则使用“近”颜色；否则使用上面指定的基本颜色。如果勾选了跟踪目标条颜色的复选框，则忽略此设置。",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Config Option: Distance Text Color": {
+    "message": "距离文本颜色",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Config Option: Distance Text Glow Color": {
+    "message": "距离文本发光颜色",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Config Option: Distance Text Color Near": {
+    "message": "距离文本颜色（近）",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Config Option: Distance Text Glow Color Near": {
+    "message": "距离文本发光颜色（近）",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Config Option: Distance Text Color Far": {
+    "message": "距离文本颜色（远）",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Config Option: Distance Text Glow Color Far": {
+    "message": "距离文本发光颜色（远）",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Config Option: Distance Text Near Range": {
+    "message": "距离“近”范围（y）：",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Config Option: Distance Text Far Range": {
+    "message": "距离“远”范围（y）：",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Config Section Header: Distance Widget Fading": {
+    "message": "淡入淡出",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Config Option: Distance Text Enable Fading": {
+    "message": "启用基于距离的淡入淡出。",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Config Option: Distance Text Inside Fade Distance": {
+    "message": "开始淡入的目标内距离（y）：",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Help: Distance Text Inside Fade Distance": {
+    "message": "如果您使用距离中心而不是距离目标圈的距离，则在配置了正的距离偏移量时，内部淡入设置只会在一定程度上起作用。",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Config Option: Distance Text Inside Fade Interval": {
+    "message": "淡入时间（y）：",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Config Option: Distance Text Outside Fade Distance": {
+    "message": "开始淡出的目标外距离（y）：",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Config Option: Distance Text Outside Fade Interval": {
+    "message": "淡出时间（y）：",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Config Option: Distance Text Invert Fading": {
+    "message": "反转淡入淡出。",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Help: Distance Text Invert Fading": {
+    "message": "不显示在上述定义的范围内的距离文本，而只在定义的范围之外显示。当使用此选项时，淡出间隔将添加到配置的阈值距离上。",
+    "description": "PluginUI_CustomWidgets.DrawConfigOptions"
+  },
+  "Config Option: Show Aggro Distance": {
+    "message": "显示敌人在发现您之前的剩余距离。",
+    "description": "PluginUI_GeneralSettings.DrawConfigOptions"
+  },
+  "Help: Show Aggro Distance": {
+    "message": "只有在已知时才会显示此距离，并且仅在主要boss上显示。此外，只有在进入战斗之前才会显示。",
+    "description": "PluginUI_GeneralSettings.DrawConfigOptions"
+  },
+  "Config Section Header: Aggro Widget Distance Rules": {
+    "message": "距离规则",
+    "description": "PluginUI_GeneralSettings.DrawConfigOptions"
+  },
+  "Help: Applicable Target Type": {
+    "message": "此小部件将显示距离的目标类型。对于控制器玩家和一些双手键盘玩家，“软目标”通常很重要。当您在世界中鼠标悬停在一个对象上时，“场景鼠标悬停”适用。当您在团队列表上鼠标悬停时，“UI鼠标悬停”适用。",
+    "description": "PluginUI_GeneralSettings.DrawConfigOptions"
+  },
+  "Config Section Header: Aggro Widget Appearance": {
+    "message": "外观",
+    "description": "PluginUI_GeneralSettings.DrawConfigOptions"
+  },
+  "Config Option: Aggro Distance Text Position": {
+    "message": "仇恨小部件位置（X，Y）：",
+    "description": "PluginUI_GeneralSettings.DrawConfigOptions"
+  },
+  "Config Option: Aggro Distance Text Use Heavy Font": {
+    "message": "使用粗体字显示仇恨小部件。",
+    "description": "PluginUI_GeneralSettings.DrawConfigOptions"
+  },
+  "Config Option: Aggro Distance Text Font Size": {
+    "message": "仇恨小部件字体大小：",
+    "description": "PluginUI_GeneralSettings.DrawConfigOptions"
+  },
+  "Config Option: Aggro Distance Text Alignment": {
+    "message": "文本对齐方式：",
+    "description": "PluginUI_GeneralSettings.DrawConfigOptions"
+  },
+  "Help: Aggro Distance Precision": {
+    "message": "仇恨范围只能精确到约0.05码，因此在使用超过一位小数点的精度时请小心。",
+    "description": "PluginUI_GeneralSettings.DrawConfigOptions"
+  },
+  "Config Section Header: Aggro Widget Colors": {
+    "message": "颜色",
+    "description": "PluginUI_GeneralSettings.DrawConfigOptions"
+  },
+  "Config Option: Aggro Distance Text Color": {
+    "message": "仇恨小部件文本颜色",
+    "description": "PluginUI_GeneralSettings.DrawConfigOptions"
+  },
+  "Config Option: Aggro Distance Text Glow Color": {
+    "message": "仇恨小部件文本发光颜色",
+    "description": "PluginUI_GeneralSettings.DrawConfigOptions"
+  },
+  "Config Option: Aggro Distance Text Color Caution": {
+    "message": "仇恨小部件文本颜色（警戒范围）",
+    "description": "PluginUI_GeneralSettings.DrawConfigOptions"
+  },
+  "Config Option: Aggro Distance Text Glow Color Caution": {
+    "message": "仇恨小部件文本发光颜色（警戒范围）",
+    "description": "PluginUI_GeneralSettings.DrawConfigOptions"
+  },
+  "Config Option: Aggro Distance Text Color Warning": {
+    "message": "仇恨小部件文本颜色（警告范围）",
+    "description": "PluginUI_GeneralSettings.DrawConfigOptions"
+  },
+  "Config Option: Aggro Distance Text Glow Color Warning": {
+    "message": "仇恨小部件文本发光颜色（警告范围）",
+    "description": "PluginUI_GeneralSettings.DrawConfigOptions"
+  },
+  "Config Option: Aggro Distance Caution Range": {
+    "message": "仇恨距离“警告”范围（y）：",
+    "description": "PluginUI_GeneralSettings.DrawConfigOptions"
+  },
+  "Config Option: Aggro Distance Warning Range": {
+    "message": "仇恨距离“警戒”范围（y）：",
+    "description": "PluginUI_GeneralSettings.DrawConfigOptions"
+  },
+  "Config Option: Auto Update Aggro Data": {
+    "message": "尝试在启动时自动获取最新的仇恨距离数据。",
+    "description": "PluginUI_GeneralSettings.DrawConfigOptions"
+  },
+  "Button: Download Aggro Distances": {
+    "message": "检查更新的仇恨距离",
+    "description": "PluginUI_GeneralSettings.DrawConfigOptions"
+  },
+  "Config Text: Download Status Indicator": {
+    "message": "最近更新尝试的状态：",
+    "description": "PluginUI_GeneralSettings.DrawConfigOptions"
+  },
+  "Config Option: Suppress Text Command Responses": {
+    "message": "抑制文本命令的响应。",
+    "description": "PluginUI_GeneralSettings.DrawConfigOptions"
+  },
+  "Help: Suppress Text Command Responses": {
+    "message": "选择此项将阻止您使用的任何文本命令在聊天中打印响应。帮助命令的响应将始终打印。",
+    "description": "PluginUI_GeneralSettings.DrawConfigOptions"
+  },
+  "Config Text: No Category Selected": {
+    "message": "未选择任何类别",
+    "description": "PluginUI_GeneralSettings.DrawConfigOptions"
+  },
+  "Config Option: Show Nameplate Distances": {
+    "message": "在名牌上显示距离。",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Section Header: Nameplate Distance Rules": {
+    "message": "距离规则",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Option: Distance is to Ring for nameplates": {
+    "message": "在名牌上显示到目标圈而不是目标中心的距离。",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Option: Nameplates - Show All": {
+    "message": "在所有名牌上显示距离。",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Help: Nameplates - Show All": {
+    "message": "对于与下一部分中的对象类型过滤器匹配的任何对象，都会在所有名牌上显示距离。如果取消选中此项，将显示以下其他选项。",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Option: Show Distance on Target": {
+    "message": "在目标上显示距离。",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Option: Show Distance on Soft Target": {
+    "message": "在软目标上显示距离。",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Option: Show Distance on Focus Target": {
+    "message": "在焦点目标上显示距离。",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Option: Show Distance on Mouseover Target": {
+    "message": "在鼠标悬停目标上显示距离。",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Option: Nameplates - Show Distance on Aggro": {
+    "message": "在对您具有敌意的敌人上显示距离。",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Help: Nameplates - Show Distance on Aggro": {
+    "message": "仅适用于敌人列表中显示的目标。不会显示对您具有敌意的其他敌人的距离。",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Option: Nameplates - Show Distance on Party": {
+    "message": "在队伍成员上显示距离。",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Help: Nameplates - Show Distance on Party": {
+    "message": "不适用于跨世界队伍成员。",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Option: Nameplates - Show Distance on Alliance": {
+    "message": "在团队成员上显示距离。",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Help: Nameplates - Show Distance on Alliance": {
+    "message": "不适用于跨世界团队成员。",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Option: Filters are Exclusive": {
+    "message": "过滤器是互斥的。",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Help: Nameplates - Filters are Exclusive": {
+    "message": "如果选中此项，则仅当对象同时满足上述条件和下面的过滤器时，才会显示距离。如果取消选中此项，则仅当对象满足任一条件时，才会显示距离。",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Section Header: Nameplate Offsets": {
+    "message": "距离偏移",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Option: Distance Measurement Offset (Player)": {
+    "message": "玩家距离读数的偏移量（y）：",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Option: Distance Measurement Offset (BNpc)": {
+    "message": "战斗NPC距离读数的偏移量（y）：",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Option: Distance Measurement Offset (Other)": {
+    "message": "所有其他实体距离读数的偏移量（y）：",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Section Header: Nameplate Filters": {
+    "message": "对象类型过滤器",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Section Header: Distance Nameplate Condition": {
+    "message": "条件过滤器",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Section Header: Nameplate Classjobs": {
+    "message": "职业过滤器",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Section Header: Nameplate Appearance": {
+    "message": "外观",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Option: Nameplates - Text Offset": {
+    "message": "距离文本位置偏移（X，Y）：",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Option: Nameplates - Automatic Alignment": {
+    "message": "自动定位距离文本。",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Help: Nameplates - Automatic Alignment": {
+    "message": "如果选中此项，距离文本将根据名牌文本自动右对齐、居中或左对齐（受上述偏移量的影响）。如果取消选中此项，距离文本将始终位于固定位置，不受名称长度的影响。",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Option: Nameplates - Place Below Name": {
+    "message": "将距离放置在名牌下方。",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Section Header: Nameplate Colors": {
+    "message": "颜色",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Option: Nameplate Distance Text Use Distance-based Colors (Party)": {
+    "message": "为队伍成员使用基于距离的文本颜色。",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Help: Nameplate Distance Text Use Distance-based Colors": {
+    "message": "允许您为不同的距离阈值设置不同的颜色。如果超出该距离，则使用“远”颜色；如果在远和近阈值之间，则使用“中”颜色；如果在该距离内，则使用“近”颜色。",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Option: Nameplate Distance Text Use Nameplate Color Near": {
+    "message": "在靠近时使用默认名牌颜色。",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Option: Nameplate Distance Text Use Nameplate Color Mid": {
+    "message": "在中间时使用默认名牌颜色。",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Option: Distance Text Color Mid": {
+    "message": "距离文本颜色（中）",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Option: Distance Text Glow Color Mid": {
+    "message": "距离文本发光颜色（中）",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Option: Nameplate Distance Text Use Nameplate Color Far": {
+    "message": "在远处时使用默认名牌颜色。",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Option: Nameplate Distance Text Use Distance-based Colors (BNpc)": {
+    "message": "为战斗NPC使用基于距离的文本颜色。",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Section Header: Nameplate Fading": {
+    "message": "淡入淡出",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Option: Distance Text Enable Fading (BNpc)": {
+    "message": "为战斗NPC启用基于距离的淡入淡出。",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Option: Distance Text Enable Fading (Party)": {
+    "message": "为队伍成员启用基于距离的淡入淡出。",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  },
+  "Config Option: Distance Text Enable Fading (Other)": {
+    "message": "为其他实体启用基于距离的淡入淡出。",
+    "description": "PluginUI_Nameplates.DrawConfigOptions"
+  }
+}
