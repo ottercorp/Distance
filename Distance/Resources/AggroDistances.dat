@@ -1,4 +1,4 @@
-Version = 2023.03.24.0000.0000-001
+﻿Version = 2024.08.21.0000.0000-001
 142=3046=8=Typhon
 142=3047=8=Ultros
 143=3330=40=Vishap
@@ -155,6 +155,7 @@ Version = 2023.03.24.0000.0000-001
 856=8350=14=Titan
 858=8361=14=Titania
 885=8352=12=Hades
+887=9211=14=Living Liquid
 897=9250=9=The Ruby Weapon
 897=0=9999=-----
 902=9281=9=Ramuh
@@ -199,9 +200,12 @@ Version = 2023.03.24.0000.0000-001
 1046=1801=9=Titan
 1047=1644=11=Garuda
 1048=2137=8=The Ultima Weapon
+1067=718=14=Whiskerwall Kupdi Koop
 1071=10298=14=Barbariccia
 1072=10298=14=Barbariccia
+1081=0=9999=-----
 1082=11440=5=Proto-Carbuncle
+1083=11381=5=Hegemone
 1084=11381=5=Hegemone
 1085=11374=-14=Agdistis
 1086=11374=-14=Agdistis
@@ -212,3 +216,28 @@ Version = 2023.03.24.0000.0000-001
 1095=12054=5=Rubicante
 1096=12054=5=Rubicante
 1122=7695=8=Omega
+1147=12369=12=Kokytos
+1148=12369=12=Kokytos
+1149=12354=1=Pandæmonium
+1150=12354=1=Pandæmonium
+1151=12388=5=Themis
+1152=12388=5=Themis
+1153=12377=6=Athena
+1154=12377=6=Athena
+1154=12382=0=Pallas Athena
+1155=12373=7=Gorai the Uncaged
+1155=12357=12=Moko the Restless
+1157=5567=0=Zurvan
+1168=12586=0=Zeromus
+1169=12586=0=Zeromus
+1175=3632=14=King Thordan
+1179=12605=7=Ketuduke
+1179=12639=10=Lala
+1179=12506=10=Statice
+1180=12605=7=Ketuduke
+1180=12639=10=Lala
+1180=12506=10=Statice
+1226=12686=10=Black Cat
+1228=12685=10=Honey B. Lovely
+1230=13356=5=Brute Bomber
+1232=13057=6=Wicked Thunder
