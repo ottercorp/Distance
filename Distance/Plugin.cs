@@ -16,7 +16,7 @@ namespace Distance;
 public sealed class Plugin : IDalamudPlugin
 {
 	//	Initialization
-	public Plugin( DalamudPluginInterface pluginInterface )
+	public Plugin( IDalamudPluginInterface pluginInterface )
 	{
 		//	API Access
 		pluginInterface.Create<Service>();
@@ -333,7 +333,7 @@ public sealed class Plugin : IDalamudPlugin
 				GetDistanceInfo( mConfiguration.AggroDistanceApplicableTargetType ).IsValid &&
 				GetDistanceInfo( mConfiguration.AggroDistanceApplicableTargetType ).TargetKind == Dalamud.Game.ClientState.Objects.Enums.ObjectKind.BattleNpc &&
 				GetDistanceInfo( mConfiguration.AggroDistanceApplicableTargetType ).HasAggroRangeData &&
-				TargetResolver.GetTarget( mConfiguration.AggroDistanceApplicableTargetType ) is BattleChara { IsDead: false } &&
+				TargetResolver.GetTarget( mConfiguration.AggroDistanceApplicableTargetType ) is IBattleChara { IsDead: false } &&
 				!Service.Condition[ConditionFlag.Unconscious] &&
 				!Service.Condition[ConditionFlag.InCombat];
 	}
@@ -343,7 +343,7 @@ public sealed class Plugin : IDalamudPlugin
 		if( Service.ClientState.IsPvP ) return false;
 		if( !config.Enabled ) return false;
 		if( !mCurrentDistanceInfoArray[(int)config.ApplicableTargetType].IsValid ) return false;
-		if( mCurrentDistanceInfoArray[(int)config.ApplicableTargetType].ObjectID == Service.ClientState.LocalPlayer?.ObjectId ) return false;
+		if( mCurrentDistanceInfoArray[(int)config.ApplicableTargetType].ObjectID == Service.ClientState.LocalPlayer?.EntityId ) return false;
 
 		return	config.Filters.ShowDistanceForObjectKind( mCurrentDistanceInfoArray[(int)config.ApplicableTargetType].TargetKind ) &&
 				config.Filters.ShowDistanceForClassJob( Service.ClientState.LocalPlayer?.ClassJob.Id ?? 0 ) &&
@@ -369,11 +369,11 @@ public sealed class Plugin : IDalamudPlugin
 			{
 				mCurrentDistanceInfoArray[i].IsValid = true;
 				mCurrentDistanceInfoArray[i].TargetKind = target.ObjectKind;
-				mCurrentDistanceInfoArray[i].ObjectID = target.ObjectId;
+				mCurrentDistanceInfoArray[i].ObjectID = target.EntityId;
 				mCurrentDistanceInfoArray[i].PlayerPosition = Service.ClientState.LocalPlayer.Position;
 				mCurrentDistanceInfoArray[i].TargetPosition = target.Position;
 				mCurrentDistanceInfoArray[i].TargetRadius_Yalms = target.HitboxRadius;
-				mCurrentDistanceInfoArray[i].BNpcID = ( target as Dalamud.Game.ClientState.Objects.Types.BattleNpc )?.NameId ?? 0;
+				mCurrentDistanceInfoArray[i].BNpcID = ( target as Dalamud.Game.ClientState.Objects.Types.IBattleNpc )?.NameId ?? 0;
 				float? aggroRange = BNpcAggroInfo.GetAggroRange( mCurrentDistanceInfoArray[i].BNpcID, Service.ClientState.TerritoryType );
 				mCurrentDistanceInfoArray[i].HasAggroRangeData = aggroRange.HasValue;
 				mCurrentDistanceInfoArray[i].AggroRange_Yalms = aggroRange ?? 0;
@@ -401,7 +401,7 @@ public sealed class Plugin : IDalamudPlugin
 	internal string AggroDataPath => Path.Join( mPluginInterface.GetPluginConfigDirectory(), "AggroDistances.dat" );
 
 	private readonly DistanceInfo[] mCurrentDistanceInfoArray = new DistanceInfo[Enum.GetNames(typeof(TargetType)).Length];
-	private readonly DalamudPluginInterface mPluginInterface;
+	private readonly IDalamudPluginInterface mPluginInterface;
 	private readonly Configuration mConfiguration;
 	private readonly PluginUI mUI;
 }

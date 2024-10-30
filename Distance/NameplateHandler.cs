@@ -3,7 +3,8 @@ using System.Diagnostics;
 using System.Numerics;
 
 using Dalamud.Game.ClientState.Conditions;
-using Dalamud.Hooking;
+using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
+using Dalamud.Game.Addon.Lifecycle;
 
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -18,37 +19,15 @@ internal static unsafe class NameplateHandler
 		//	plugin service effectively already crosses this bridge this anyway, so it's not worth worrying about.
 		mConfiguration = configuration;
 
-		if( Service.SigScanner == null )
+		if( mConfiguration.NameplateDistancesConfig.ShowNameplateDistances )
 		{
-			throw new Exception( "Error in \"NameplateHandler.Init()\": A null SigScanner was passed!" );
+			EnableNameplateDistances();
 		}
-
-		//	Get Function Pointers, etc.
-		try
-		{
-			IntPtr fpOnNameplateDraw = Service.SigScanner.ScanText( "0F B7 81 ?? ?? ?? ?? 4C 8B C1 66 C1 E0 06" );	//***** TODO: Can we hook the draw vfunc through ClientStructs?  Would that be more stable?
-			if( fpOnNameplateDraw != IntPtr.Zero )
-			{
-				mNameplateDrawHook = Service.GameInteropProvider.HookFromAddress<NameplateDrawFuncDelegate>(fpOnNameplateDraw, mdNameplateDraw);
-				if( mNameplateDrawHook == null ) throw new Exception( "Unable to create nameplate draw hook." );
-				if( mConfiguration.NameplateDistancesConfig.ShowNameplateDistances ) mNameplateDrawHook.Enable();
-			}
-		}
-		catch( Exception e )
-		{
-			mNameplateDrawHook?.Disable();
-			mNameplateDrawHook?.Dispose();
-			mNameplateDrawHook = null;
-			Service.PluginLog.Error( $"Error in \"NameplateHandler.Init()\" while searching for required function signatures; this probably means that the plugin needs to be updated due to changes in Final Fantasy XIV.\r\n{e}" );
-			return;
-		}
-	}
+    }
 
 	internal static void Uninit()
 	{
-		mNameplateDrawHook?.Disable();
-		mNameplateDrawHook?.Dispose();
-		mNameplateDrawHook = null;
+        DisableNameplateDistances();
 
 		DestroyNameplateDistanceNodes();
 
@@ -61,28 +40,37 @@ internal static unsafe class NameplateHandler
 
 	internal static void EnableNameplateDistances()
 	{
-		if( mNameplateDrawHook == null ) return;
-		if( !mNameplateDrawHook.IsEnabled )
+		if( !mEnabled )
 		{
 			try
 			{
-				mNameplateDrawHook.Enable();
+				Service.AddonLifecycle.RegisterListener( AddonEvent.PostDraw, "NamePlate", NameplateDrawDetour );
+				mEnabled = true;
 			}
 			catch( Exception e )
 			{
 				Service.PluginLog.Error( $"Unknown error while trying to enable nameplate distances:\r\n{e}" );
+				DisableNameplateDistances();
 			}
 		}
 	}
 
 	internal static void DisableNameplateDistances()
 	{
-		if( mNameplateDrawHook == null ) return;
-		if( mNameplateDrawHook.IsEnabled )
+		if( mEnabled )
 		{
 			try
 			{
-				mNameplateDrawHook.Disable();
+				Service.AddonLifecycle.UnregisterListener( NameplateDrawDetour );
+			}
+			catch( Exception e )
+			{
+				Service.PluginLog.Error( $"Unknown error while unregistering nameplate listener:\r\n{e}" );
+			}
+
+			try
+			{
+				mEnabled = false;
 				mNodeUpdateTimer.Reset();
 				mDistanceUpdateTimer.Reset();
 				HideAllNameplateDistanceNodes();
@@ -106,15 +94,15 @@ internal static unsafe class NameplateHandler
 		}
 
 		if( FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance() != null &&
-			FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance()->GetUiModule() != null &&
-			FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance()->GetUiModule()->GetUI3DModule() != null )
+			FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance()->GetUIModule() != null &&
+			FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance()->GetUIModule()->GetUI3DModule() != null )
 		{
-			var pUI3DModule = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance()->GetUiModule()->GetUI3DModule();
+			var pUI3DModule = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance()->GetUIModule()->GetUI3DModule();
 
 			//	Update the available distance data.
 			for( int i = 0; i < pUI3DModule->NamePlateObjectInfoCount; ++i )
 			{
-				var pObjectInfo = ((UI3DModule.ObjectInfo**)pUI3DModule->NamePlateObjectInfoPointerArray)[i];
+				var pObjectInfo = pUI3DModule->NamePlateObjectInfoPointers[i].Value;
 				if( pObjectInfo != null &&
 					pObjectInfo->GameObject != null &&
 					pObjectInfo->NamePlateIndex >= 0 &&
@@ -125,7 +113,7 @@ internal static unsafe class NameplateHandler
 					{
 						mNameplateDistanceInfoArray[pObjectInfo->NamePlateIndex].IsValid = true;
 						mNameplateDistanceInfoArray[pObjectInfo->NamePlateIndex].TargetKind = (Dalamud.Game.ClientState.Objects.Enums.ObjectKind)pObject->ObjectKind;
-						mNameplateDistanceInfoArray[pObjectInfo->NamePlateIndex].ObjectID = pObject->ObjectID;
+						mNameplateDistanceInfoArray[pObjectInfo->NamePlateIndex].ObjectID = pObject->EntityId;
 						mNameplateDistanceInfoArray[pObjectInfo->NamePlateIndex].ObjectAddress = new IntPtr( pObject );
 						mNameplateDistanceInfoArray[pObjectInfo->NamePlateIndex].PlayerPosition = Service.ClientState.LocalPlayer?.Position ?? Vector3.Zero;
 						mNameplateDistanceInfoArray[pObjectInfo->NamePlateIndex].TargetPosition = new( pObject->Position.X, pObject->Position.Y, pObject->Position.Z );
@@ -157,7 +145,7 @@ internal static unsafe class NameplateHandler
 
 		var distanceInfo = mNameplateDistanceInfoArray[i];
 
-		if( distanceInfo.ObjectID == Service.ClientState.LocalPlayer?.ObjectId ) return false;
+		if( distanceInfo.ObjectID == Service.ClientState.LocalPlayer?.EntityId ) return false;
 
 		bool filtersPermitShowing = mConfiguration.NameplateDistancesConfig.Filters.ShowDistanceForObjectKind( distanceInfo.TargetKind ) &&
 									mConfiguration.NameplateDistancesConfig.Filters.ShowDistanceForClassJob( Service.ClientState.LocalPlayer?.ClassJob.Id ?? 0 );
@@ -200,16 +188,18 @@ internal static unsafe class NameplateHandler
 		}
 	}
 
-	private static void NameplateDrawDetour( AddonNamePlate* pThis )
+	private static void NameplateDrawDetour( AddonEvent type, AddonArgs args )
 	{
+		var pNameplateAddon = (AddonNamePlate*)args.Addon;
+
 		try
 		{
-			if( mpNameplateAddon != pThis )
+			if( mpNameplateAddon != pNameplateAddon )
 			{
-				Service.PluginLog.Debug( $"Nameplate draw detour pointer mismatch: 0x{(IntPtr)mpNameplateAddon:X} -> 0x{(IntPtr)pThis:X}" );
+				Service.PluginLog.Debug( $"Nameplate draw detour pointer mismatch: 0x{(IntPtr)mpNameplateAddon:X} -> 0x{(IntPtr)pNameplateAddon:X}" );
 				//	I don't know how to safely clean up our own nodes when the addon reloads.  The addon might take care of our inserted nodes when it cleans itself up anyway.
 				for( int i = 0; i < mDistanceTextNodes.Length; ++i ) mDistanceTextNodes[i] = null;
-				mpNameplateAddon = pThis;
+				mpNameplateAddon = pNameplateAddon;
 				if( mpNameplateAddon != null ) CreateNameplateDistanceNodes();
 			}
 
@@ -221,10 +211,6 @@ internal static unsafe class NameplateHandler
 			Service.PluginLog.Error( $"Unknown error in nameplate draw hook.  Disabling nameplate distances.\r\n{e}" );
 			mConfiguration.NameplateDistancesConfig.ShowNameplateDistances = false;
 			DisableNameplateDistances();
-		}
-		finally
-		{
-			mNameplateDrawHook.Original( pThis );
 		}
 	}
 
@@ -241,6 +227,9 @@ internal static unsafe class NameplateHandler
 	//	same, but it also won't make sense to the user to have font sizes for nameplates not match font sizes elsewhere,
 	//	so we also multiply the configured font size by the inverse of the node scale to get the real font size.  This
 	//	scaling also affects alignment calculations, so beware.
+
+	//***** TODO: This probably actually depends on whether the game is set to use high res UI (under graphics settings).  Test this and account for it if necessary.
+
 	private static void UpdateNameplateDistanceNodes()
 	{
 		mNodeUpdateTimer.Restart();
@@ -294,7 +283,7 @@ internal static unsafe class NameplateHandler
 
 			float displayDistance_Yalms = mConfiguration.NameplateDistancesConfig.AllowNegativeDistances ? distance_Yalms : Math.Max( 0, distance_Yalms );
 			string distanceText = displayDistance_Yalms.ToString( $"F{mConfiguration.NameplateDistancesConfig.DistanceDecimalPrecision}" );
-			if( mConfiguration.NameplateDistancesConfig.ShowUnitsOnDistance ) distanceText += "y";
+			if( mConfiguration.NameplateDistancesConfig.ShowUnitsOnDistance ) distanceText += LocalizationHelpers.DistanceUnitShort;
 
 			UpdateNameplateDistanceTextNode( i, distanceText, drawData, mShouldDrawDistanceInfoArray[i] );
 		}
@@ -456,8 +445,8 @@ internal static unsafe class NameplateHandler
 		}
 		else
 		{
-			uint targetOID = TargetResolver.GetTarget( TargetType.Target )?.ObjectId ?? 0;
-			uint softTargetOID = TargetResolver.GetTarget( TargetType.SoftTarget )?.ObjectId ?? 0;
+			uint targetOID = TargetResolver.GetTarget( TargetType.Target )?.EntityId ?? 0;
+			uint softTargetOID = TargetResolver.GetTarget( TargetType.SoftTarget )?.EntityId ?? 0;
 			return objectID == targetOID || objectID == softTargetOID;
 		}
 	}
@@ -467,14 +456,14 @@ internal static unsafe class NameplateHandler
 		var nameplateObject = GetNameplateObject( i );
 		if( nameplateObject == null ) return TextNodeDrawData.Default;
 
-		var pNameplateIconNode = nameplateObject.Value.ImageNode2;	//	Need to check this for people that are using player icon plugins with names hidden.
-		var pNameplateResNode = nameplateObject.Value.ResNode;
+		var pNameplateIconNode = nameplateObject.Value.MarkerIcon;	//	Need to check this for people that are using player icon plugins with names hidden.
+		var pNameplateResNode = nameplateObject.Value.NameContainer;
 		var pNameplateTextNode = nameplateObject.Value.NameText;
 		if( pNameplateTextNode != null && pNameplateResNode != null && pNameplateIconNode != null )
 		{
 			return new TextNodeDrawData()
 			{
-				Show = pNameplateIconNode->AtkResNode.IsVisible || ( pNameplateResNode->IsVisible && pNameplateTextNode->AtkResNode.IsVisible ),
+				Show = pNameplateIconNode->AtkResNode.IsVisible() || ( pNameplateResNode->IsVisible() && pNameplateTextNode->AtkResNode.IsVisible() ),
 				PositionX = (short)pNameplateResNode->X,
 				PositionY = (short)pNameplateResNode->Y,
 				Width = pNameplateResNode->Width,
@@ -511,7 +500,7 @@ internal static unsafe class NameplateHandler
 	{
 		if( i < AddonNamePlate.NumNamePlateObjects &&
 			mpNameplateAddon != null &&
-			mpNameplateAddon->NamePlateObjectArray[i].RootNode != null )
+			mpNameplateAddon->NamePlateObjectArray[i].RootComponentNode != null )
 		{
 			return mpNameplateAddon->NamePlateObjectArray[i];
 		}
@@ -524,7 +513,7 @@ internal static unsafe class NameplateHandler
 	private static AtkComponentNode* GetNameplateComponentNode( int i )
 	{
 		var nameplateObject = GetNameplateObject( i );
-		return nameplateObject != null ? nameplateObject.Value.RootNode : null;
+		return nameplateObject != null ? nameplateObject.Value.RootComponentNode : null;
 	}
 
 	private static void CreateNameplateDistanceNodes()
@@ -537,7 +526,7 @@ internal static unsafe class NameplateHandler
 				Service.PluginLog.Warning( $"Unable to obtain nameplate object for index {i}" );
 				continue;
 			}
-			var pNameplateResNode = nameplateObject.Value.ResNode;
+			var pNameplateResNode = nameplateObject.Value.NameContainer;
 
 			//	Make a node.
 			var pNewNode = AtkNodeHelpers.CreateOrphanTextNode( mNameplateDistanceNodeIDBase + (uint)i, TextFlags.Edge | TextFlags.Glare );
@@ -550,7 +539,7 @@ internal static unsafe class NameplateHandler
 				pNewNode->AtkResNode.NextSiblingNode = pLastChild;
 				pNewNode->AtkResNode.ParentNode = pNameplateResNode;
 				pLastChild->PrevSiblingNode = (AtkResNode*)pNewNode;
-				nameplateObject.Value.RootNode->Component->UldManager.UpdateDrawNodeList();
+				nameplateObject.Value.RootComponentNode->Component->UldManager.UpdateDrawNodeList();
 				pNewNode->AtkResNode.SetUseDepthBasedPriority( true );
 
 				//	Store it in our array.
@@ -662,11 +651,11 @@ internal static unsafe class NameplateHandler
 	internal static int DEBUG_mNameplateTextFlags2 = 0;
 
 	//	Delgates and Hooks
-	private delegate void NameplateDrawFuncDelegate( AddonNamePlate* pThis );
+	private delegate void NameplateDrawFuncDelegate( AddonEvent type, AddonArgs args );
 	private static readonly NameplateDrawFuncDelegate mdNameplateDraw = new( NameplateDrawDetour );
-	private static Hook<NameplateDrawFuncDelegate> mNameplateDrawHook;
 
 	//	Members
+	private static bool mEnabled = false;
 	private static readonly DistanceInfo[] mNameplateDistanceInfoArray = new DistanceInfo[AddonNamePlate.NumNamePlateObjects];
 	private static readonly bool[] mShouldDrawDistanceInfoArray = new bool[AddonNamePlate.NumNamePlateObjects];
 	private static Configuration mConfiguration = null;

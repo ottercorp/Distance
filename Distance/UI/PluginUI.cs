@@ -18,7 +18,7 @@ namespace Distance;
 
 public sealed class PluginUI : IDisposable
 {
-	public PluginUI( Plugin plugin, DalamudPluginInterface pluginInterface, Configuration configuration )
+	public PluginUI( Plugin plugin, IDalamudPluginInterface pluginInterface, Configuration configuration )
 	{
 		mPlugin = plugin;
 		mPluginInterface = pluginInterface;
@@ -400,7 +400,7 @@ public sealed class PluginUI : IDisposable
 			float distance_Yalms = config.DistanceIsToRing ? distanceInfo.DistanceFromTargetRing_Yalms : distanceInfo.DistanceFromTarget_Yalms;
 			distance_Yalms -= config.DistanceOffset_Yalms;
 			float displayDistance = config.AllowNegativeDistances ? distance_Yalms : Math.Max( 0, distance_Yalms );
-			string unitString = config.ShowUnits ? "y" : "";
+			string unitString = config.ShowUnits ? LocalizationHelpers.DistanceUnitShort : "";
 			string distanceTypeSymbol = "";
 			if( config.ShowDistanceModeMarker ) distanceTypeSymbol = config.DistanceIsToRing ? "◯ " : "· ";
 			str = $"{distanceTypeSymbol}{displayDistance.ToString( $"F{config.DecimalPrecision}" )}{unitString}";
@@ -536,7 +536,7 @@ public sealed class PluginUI : IDisposable
 		if( distanceInfo.IsValid )
 		{
 			float distance = Math.Max( 0, distanceInfo.DistanceFromTargetAggro_Yalms );
-			string unitString = mConfiguration.ShowUnitsOnAggroDistance ? "y" : "";
+			string unitString = mConfiguration.ShowUnitsOnAggroDistance ? LocalizationHelpers.DistanceUnitShort : "";
 			str = $"Aggro in {distance.ToString( $"F{mConfiguration.AggroDistanceDecimalPrecision}" )}{unitString}";
 
 			if( distance < mConfiguration.AggroWarningDistance_Yalms )
@@ -695,7 +695,7 @@ public sealed class PluginUI : IDisposable
 	}
 
 	private readonly Plugin mPlugin;
-	private readonly DalamudPluginInterface mPluginInterface;
+	private readonly IDalamudPluginInterface mPluginInterface;
 	private readonly Configuration mConfiguration;
 
 	internal readonly PluginUI_AggroArcs AggroArcsUI;
