@@ -2,9 +2,9 @@
 using System.Diagnostics;
 using System.Numerics;
 
-using Dalamud.Game.ClientState.Conditions;
-using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using Dalamud.Game.Addon.Lifecycle;
+using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
+using Dalamud.Game.ClientState.Conditions;
 
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -148,7 +148,7 @@ internal static unsafe class NameplateHandler
 		if( distanceInfo.ObjectID == Service.ClientState.LocalPlayer?.EntityId ) return false;
 
 		bool filtersPermitShowing = mConfiguration.NameplateDistancesConfig.Filters.ShowDistanceForObjectKind( distanceInfo.TargetKind ) &&
-									mConfiguration.NameplateDistancesConfig.Filters.ShowDistanceForClassJob( Service.ClientState.LocalPlayer?.ClassJob.Id ?? 0 );
+									mConfiguration.NameplateDistancesConfig.Filters.ShowDistanceForClassJob( Service.ClientState.LocalPlayer?.ClassJob.RowId ?? 0 );
 
 		if( mConfiguration.NameplateDistancesConfig.ShowAll )
 		{

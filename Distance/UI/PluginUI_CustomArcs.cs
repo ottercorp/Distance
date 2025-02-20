@@ -7,7 +7,6 @@ using CheapLoc;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Objects.Enums;
 using Dalamud.Interface;
-using Dalamud.Utility;
 
 using FFXIVClientStructs.FFXIV.Client.Graphics.Scene;
 
@@ -301,7 +300,7 @@ internal sealed class PluginUI_CustomArcs : IDisposable
 		{
 			if( !config.Enabled ) continue;
 			if( !config.Filters.ShowDistanceForConditions( Service.Condition[ConditionFlag.InCombat], Service.Condition[ConditionFlag.BoundByDuty] ) ) continue;
-			if( !config.Filters.ShowDistanceForClassJob( Service.ClientState.LocalPlayer?.ClassJob.Id ?? 0 ) ) continue;
+			if( !config.Filters.ShowDistanceForClassJob( Service.ClientState.LocalPlayer?.ClassJob.RowId ?? 0 ) ) continue;
 			//	Note that we cannot evaluate the object type filters here, because they may behave differently by target category.
 
 			if( config.ApplicableTargetCategory == TargetCategory.Targets ) DrawCustomArc_Targets( config );
