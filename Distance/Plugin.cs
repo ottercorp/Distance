@@ -99,7 +99,7 @@ public sealed class Plugin : IDalamudPlugin
 	private void OnLanguageChanged( string langCode )
 	{
 		//***** TODO *****
-		var allowedLang = new List<string>{ /*"de", "ja", "fr", "it", "es"*/ };
+		var allowedLang = new List<string>{ "zh" /*"de", "ja", "fr", "it", "es"*/ };
 
 		Service.PluginLog.Information( "Trying to set up Loc for culture {0}", langCode );
 
