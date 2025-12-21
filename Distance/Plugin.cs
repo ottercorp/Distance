@@ -343,16 +343,16 @@ public sealed class Plugin : IDalamudPlugin
 		if( Service.ClientState.IsPvP ) return false;
 		if( !config.Enabled ) return false;
 		if( !mCurrentDistanceInfoArray[(int)config.ApplicableTargetType].IsValid ) return false;
-		if( mCurrentDistanceInfoArray[(int)config.ApplicableTargetType].ObjectID == Service.ClientState.LocalPlayer?.EntityId ) return false;
+		if( mCurrentDistanceInfoArray[(int)config.ApplicableTargetType].ObjectID == Service.PlayerState?.EntityId ) return false;
 
 		return	config.Filters.ShowDistanceForObjectKind( mCurrentDistanceInfoArray[(int)config.ApplicableTargetType].TargetKind ) &&
-				config.Filters.ShowDistanceForClassJob( Service.ClientState.LocalPlayer?.ClassJob.RowId ?? 0 ) &&
+				config.Filters.ShowDistanceForClassJob( Service.PlayerState?.ClassJob.RowId ?? 0 ) &&
 				config.Filters.ShowDistanceForConditions( Service.Condition[ConditionFlag.InCombat], Service.Condition[ConditionFlag.BoundByDuty] );
 	}
 
 	private void UpdateTargetDistanceData()
 	{
-		if( Service.ClientState.LocalPlayer == null)
+		if( Service.ObjectTable.LocalPlayer is null || !Service.ObjectTable.LocalPlayer.IsValid() )
 		{
 			foreach( var info in mCurrentDistanceInfoArray )
 			{
@@ -370,7 +370,7 @@ public sealed class Plugin : IDalamudPlugin
 				mCurrentDistanceInfoArray[i].IsValid = true;
 				mCurrentDistanceInfoArray[i].TargetKind = target.ObjectKind;
 				mCurrentDistanceInfoArray[i].ObjectID = target.EntityId;
-				mCurrentDistanceInfoArray[i].PlayerPosition = Service.ClientState.LocalPlayer.Position;
+				mCurrentDistanceInfoArray[i].PlayerPosition = Service.ObjectTable.LocalPlayer.Position;
 				mCurrentDistanceInfoArray[i].TargetPosition = target.Position;
 				mCurrentDistanceInfoArray[i].TargetRadius_Yalms = target.HitboxRadius;
 				mCurrentDistanceInfoArray[i].BNpcID = ( target as Dalamud.Game.ClientState.Objects.Types.IBattleNpc )?.NameId ?? 0;

@@ -294,13 +294,13 @@ internal sealed class PluginUI_CustomArcs : IDisposable
 	internal void DrawOnOverlay()
 	{
 		if( Service.ClientState.IsPvP ) return;
-		if( Service.ClientState.LocalPlayer == null ) return;
+		if( Service.ObjectTable.LocalPlayer is null || !Service.ObjectTable.LocalPlayer.IsValid() ) return;
 
 		foreach( var config in mConfiguration.DistanceArcConfigs )
 		{
 			if( !config.Enabled ) continue;
 			if( !config.Filters.ShowDistanceForConditions( Service.Condition[ConditionFlag.InCombat], Service.Condition[ConditionFlag.BoundByDuty] ) ) continue;
-			if( !config.Filters.ShowDistanceForClassJob( Service.ClientState.LocalPlayer?.ClassJob.RowId ?? 0 ) ) continue;
+			if( !config.Filters.ShowDistanceForClassJob( Service.PlayerState?.ClassJob.RowId ?? 0 ) ) continue;
 			//	Note that we cannot evaluate the object type filters here, because they may behave differently by target category.
 
 			if( config.ApplicableTargetCategory == TargetCategory.Targets ) DrawCustomArc_Targets( config );
@@ -336,14 +336,14 @@ internal sealed class PluginUI_CustomArcs : IDisposable
 	private unsafe void DrawCustomArc_Self( DistanceArcConfig config )
 	{
 		double playerRelativeArcAngle_Rad = config.SelfTargetedArcAzimuth_Deg * Math.PI / 180.0;
-		double absoluteArcAngle_Rad = -Service.ClientState.LocalPlayer.Rotation - Math.PI / 2.0 + playerRelativeArcAngle_Rad;
+		double absoluteArcAngle_Rad = -Service.ObjectTable.LocalPlayer.Rotation - Math.PI / 2.0 + playerRelativeArcAngle_Rad;
 
 		bool cameraValid = CameraManager.Instance() != null && CameraManager.Instance()->CurrentCamera != null;
 		if( config.SelfTargetedArcCameraRelative && cameraValid )
 		{
 			Vector3 cameraDirection = CameraManager.Instance()->CurrentCamera->LookAtVector - CameraManager.Instance()->CurrentCamera->Object.Position;
 			double cameraAngle_Rad = -Math.Atan2( cameraDirection.Z, cameraDirection.X ) + Math.PI / 2.0;
-			double cameraOffset_Rad = Service.ClientState.LocalPlayer.Rotation - cameraAngle_Rad;
+			double cameraOffset_Rad = Service.ObjectTable.LocalPlayer.Rotation - cameraAngle_Rad;
 			absoluteArcAngle_Rad += cameraOffset_Rad;
 		}
 
@@ -356,10 +356,10 @@ internal sealed class PluginUI_CustomArcs : IDisposable
 			Y = 0f,
 			Z = (float)Math.Sin( absoluteArcAngle_Rad ) * trueArcRadius_Yalms,
 		};
-		arcMidpoint += Service.ClientState.LocalPlayer.Position;
+		arcMidpoint += Service.ObjectTable.LocalPlayer.Position;
 
 		ArcUtils.DrawArc_ScreenSpace(
-			Service.ClientState.LocalPlayer.Position,
+			Service.ObjectTable.LocalPlayer.Position,
 			arcMidpoint,
 			trueArcRadius_Yalms,
 			config.ArcLength,
@@ -377,13 +377,13 @@ internal sealed class PluginUI_CustomArcs : IDisposable
 										x.SubKind == (byte)BattleNpcSubKind.Enemy &&
 										x.IsTargetable &&
 										( !x.IsDead || config.ShowDeadObjects ) &&
-										x.Position.DistanceTo_XZ( Service.ClientState.LocalPlayer.Position ) < 50f &&
+										x.Position.DistanceTo_XZ( Service.ObjectTable.LocalPlayer.Position ) < 50f &&
 										( x.IsAggressive() && config.AllEnemiesShowAggressive || !x.IsAggressive() && config.AllEnemiesShowUnaggressive )
 										);
 
 		foreach( var bnpc in relevantBNpcs )
 		{
-			float bnpcDistance_Yalms = bnpc.Position.DistanceTo_XZ( Service.ClientState.LocalPlayer.Position );
+			float bnpcDistance_Yalms = bnpc.Position.DistanceTo_XZ( Service.ObjectTable.LocalPlayer.Position );
 			float trueArcRadius_Yalms = config.ArcRadius_Yalms + ( config.DistanceIsToRing ? bnpc.HitboxRadius : 0 );
 			float distanceFromArc_Yalms = bnpcDistance_Yalms - trueArcRadius_Yalms;
 
@@ -393,7 +393,7 @@ internal sealed class PluginUI_CustomArcs : IDisposable
 
 			ArcUtils.DrawArc_ScreenSpace(
 				bnpc.Position,
-				Service.ClientState.LocalPlayer.Position,
+				Service.ObjectTable.LocalPlayer.Position,
 				trueArcRadius_Yalms,
 				config.ArcLength,
 				config.ArcLengthIsYalms,
@@ -413,12 +413,12 @@ internal sealed class PluginUI_CustomArcs : IDisposable
 											!x.IsPartyMember() && !x.IsAllianceMember() && config.AllPlayersShowOthers ) &&
 										x.IsTargetable &&
 										( !x.IsDead || config.ShowDeadObjects ) &&
-										x.Position.DistanceTo_XZ( Service.ClientState.LocalPlayer.Position ) < 50f
+										x.Position.DistanceTo_XZ( Service.ObjectTable.LocalPlayer.Position ) < 50f
 										);
 
 		foreach( var bnpc in relevantBNpcs )
 		{
-			float bnpcDistance_Yalms = bnpc.Position.DistanceTo_XZ( Service.ClientState.LocalPlayer.Position );
+			float bnpcDistance_Yalms = bnpc.Position.DistanceTo_XZ( Service.ObjectTable.LocalPlayer.Position );
 			float trueArcRadius_Yalms = config.ArcRadius_Yalms + ( config.DistanceIsToRing ? bnpc.HitboxRadius : 0 );
 			float distanceFromArc_Yalms = bnpcDistance_Yalms - trueArcRadius_Yalms;
 
@@ -428,7 +428,7 @@ internal sealed class PluginUI_CustomArcs : IDisposable
 
 			ArcUtils.DrawArc_ScreenSpace(
 				bnpc.Position,
-				Service.ClientState.LocalPlayer.Position,
+				Service.ObjectTable.LocalPlayer.Position,
 				trueArcRadius_Yalms,
 				config.ArcLength,
 				config.ArcLengthIsYalms,

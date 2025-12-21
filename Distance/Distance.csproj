@@ -1,4 +1,4 @@
-﻿<Project Sdk="Dalamud.NET.Sdk/14.0.0">
+﻿<Project Sdk="Dalamud.NET.Sdk/14.0.1">
 
 	<!-- Compiler Settings -->
 	<PropertyGroup>
@@ -13,7 +13,7 @@
 
 	<!-- Project Information -->
 	<PropertyGroup>
-		<Version>1.1.3.3</Version>
+		<Version>1.1.3.4</Version>
 		<Authors>PunishedPineapple</Authors>
 		<Product />
 		<Copyright>Copyright © PunishedPineapple 2022-2025</Copyright>
@@ -43,9 +43,6 @@
 	<!-- Other files -->
 	<ItemGroup>
 		<Content Include="Docs\**" />
-	</ItemGroup>
-	<ItemGroup>
-	  <PackageReference Update="DalamudPackager" Version="14.0.1" />
 	</ItemGroup>
 
 </Project>
