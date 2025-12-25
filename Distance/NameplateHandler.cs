@@ -115,7 +115,7 @@ internal static unsafe class NameplateHandler
 						mNameplateDistanceInfoArray[pObjectInfo->NamePlateIndex].TargetKind = (Dalamud.Game.ClientState.Objects.Enums.ObjectKind)pObject->ObjectKind;
 						mNameplateDistanceInfoArray[pObjectInfo->NamePlateIndex].ObjectID = pObject->EntityId;
 						mNameplateDistanceInfoArray[pObjectInfo->NamePlateIndex].ObjectAddress = new IntPtr( pObject );
-						mNameplateDistanceInfoArray[pObjectInfo->NamePlateIndex].PlayerPosition = Service.ClientState.LocalPlayer?.Position ?? Vector3.Zero;
+						mNameplateDistanceInfoArray[pObjectInfo->NamePlateIndex].PlayerPosition = Service.ObjectTable.LocalPlayer?.Position ?? Vector3.Zero;
 						mNameplateDistanceInfoArray[pObjectInfo->NamePlateIndex].TargetPosition = new( pObject->Position.X, pObject->Position.Y, pObject->Position.Z );
 						mNameplateDistanceInfoArray[pObjectInfo->NamePlateIndex].TargetRadius_Yalms = pObject->HitboxRadius;
 
@@ -145,10 +145,10 @@ internal static unsafe class NameplateHandler
 
 		var distanceInfo = mNameplateDistanceInfoArray[i];
 
-		if( distanceInfo.ObjectID == Service.ClientState.LocalPlayer?.EntityId ) return false;
+		if( distanceInfo.ObjectID == Service.PlayerState?.EntityId ) return false;
 
 		bool filtersPermitShowing = mConfiguration.NameplateDistancesConfig.Filters.ShowDistanceForObjectKind( distanceInfo.TargetKind ) &&
-									mConfiguration.NameplateDistancesConfig.Filters.ShowDistanceForClassJob( Service.ClientState.LocalPlayer?.ClassJob.RowId ?? 0 );
+									mConfiguration.NameplateDistancesConfig.Filters.ShowDistanceForClassJob( Service.PlayerState?.ClassJob.RowId ?? 0 );
 
 		if( mConfiguration.NameplateDistancesConfig.ShowAll )
 		{
